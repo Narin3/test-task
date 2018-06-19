@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import tableData1 from '../dataFiles/table_data.json';
-import tableData2 from '../dataFiles/table_data_1.json';
 import './styles/style.css';
 import ScoreTable from './ScoreTable'
 import moment from 'moment';
@@ -64,11 +62,11 @@ class MainTable extends Component {
     }
 
     render(){
-    let tableData = this.state.savingData ? tableData1.tableData : tableData2.tableData
+    let tableData = this.state.savingData ? this.props.data.tableData : this.props.updatedData.tableData
     let TableItems = (data) => {
         let dataTable = []
         for (let i in data){
-            console.log(i)
+            // console.log(i)
             let item = <ScoreTable kind={data[i].Kind}
                                     sequence={data[i].sequence}
                                     events={data[i].Events}/>
