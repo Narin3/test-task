@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-import tableData from '../dataFiles/table_data.json';
+import tableData1 from '../dataFiles/table_data.json';
+import tableData2 from '../dataFiles/table_data_1.json';
 import './styles/style.css';
 import ScoreTable from './ScoreTable'
 import moment from 'moment';
 import CountDown from 'react-countdown-moment';
 import './styles/style.css';
-// import tableData_1 from './dataFiles/table_data_1.json';
-import fs from 'fs'
+
 
 class MainTable extends Component {
     constructor(props){
@@ -56,15 +55,8 @@ class MainTable extends Component {
         this.setState({countDownStarter: false})
     }
 
-    handleSubmit = (e) => {
-    'use strict';
-        debugger
-        this.setState({ data: Object.assign( {}, this.state.data, { [e.target.name]: e.target.name }),
-            scoreData: {}
-            })
-     let newData = JSON.stringify([this.state.data])
-     console.log(newData)
-     fs.writeFile('table_data.json', newData);  
+    handleSubmit = () => {
+        this.setState({savingData: true})
     }
 
     handleCancel = () => {
@@ -72,7 +64,19 @@ class MainTable extends Component {
     }
 
     render(){
-        console.log(fs)
+    let tableData = this.state.savingData ? tableData1.tableData : tableData2.tableData
+    let TableItems = (data) => {
+        let dataTable = []
+        for (let i in data){
+            console.log(i)
+            let item = <ScoreTable kind={data[i].Kind}
+                                    sequence={data[i].sequence}
+                                    events={data[i].Events}/>
+            dataTable.push(item)
+        }
+        return dataTable
+    } 
+
         let timer = this.getTimeCalculation()
         return (
             <div className='main-container'>
@@ -102,6 +106,7 @@ class MainTable extends Component {
                                                 step="1"
                                                 onChange={(name) => this.handleChange(name)}
                                             />
+                                            <br/>
                                             <input
                                                 type="number"
                                                 placeholder="away"
@@ -122,6 +127,7 @@ class MainTable extends Component {
                                                 step="1"
                                                 onChange={(name) => this.handleChange(name)}
                                             />
+                                            <br/>
                                             <input
                                                 type="number"
                                                 placeholder="away"
@@ -145,6 +151,7 @@ class MainTable extends Component {
                                                 step="1"
                                                 onChange={(name) => this.handleChange(name)}
                                             />
+                                            <br/>
                                             <input
                                                 type="number"
                                                 placeholder="away"
@@ -202,7 +209,9 @@ class MainTable extends Component {
                     </div>
                 </form>
                 <div className='score-table'>
-                    <ScoreTable />
+                    <div className='table-container'>
+                        {TableItems(tableData)}
+                    </div>
                 </div>
             </div>
         )
