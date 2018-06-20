@@ -55,9 +55,9 @@
     flex-direction: column;
     flex: 1 1 auto;
     overflow: hidden;
-    border: 1px solid #878a8a;
+    /* border: 1px solid #878a8a; */
     width: 30%;
-    /* height: 750px; */
+    height: 125px;
     padding: 10px;
     margin-right: 40px;
     margin-top: 10px;
